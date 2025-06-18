@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+
+
+echo $DBDIR
+echo $DB
+echo $DBUSER
+echo $PORT
+echo $SOCKET
+echo $SQLITE_FIADB
+echo $TABLE_LIST
+echo $CSV_DIR
+echo $RAW_SCHEMA
+echo $SCHEMA_FILE
+echo $CONSTRAINT_FILE
+echo $SCHEMA_MIGRATION_FILE
+echo $CSV_MIGRATION_FILE
+echo $CONSTRAINTS_MIGRATION_FILE
