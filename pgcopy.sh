@@ -1,8 +1,6 @@
 #!/bin/bash
 
-PORT=5432
-
-
+echo "MIGRATING TO PGSQL"
 # clean slate
 dropdb -h "$SOCKET" -p $PORT -U "$DBUSER" "$DB"
 createdb -h "$SOCKET" -p $PORT -U "$DBUSER" "$DB"

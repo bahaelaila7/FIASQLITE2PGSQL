@@ -16,7 +16,10 @@ export SCHEMA_MIGRATION_FILE="apply_schema.sql"
 export CSV_MIGRATION_FILE="copy_csv.sql"
 export CONSTRAINTS_MIGRATION_FILE="apply_constraints.sql"
 
+
 ./echos.sh
+
+./countrows.sh
 
 ./dump_tables.sh && \
 ./build_migration.sh && \

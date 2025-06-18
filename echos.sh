@@ -2,6 +2,7 @@
 
 
 
+echo "SHOWING ENV VARS"
 echo $DBDIR
 echo $DB
 echo $DBUSER
