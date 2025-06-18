@@ -2,6 +2,7 @@
 
 # Usage
 Double check the variables in `migrate.sh` then run it
+
 it will create `.pgsql` local db
 
 ## Requirements
