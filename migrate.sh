@@ -17,11 +17,10 @@ export CSV_MIGRATION_FILE="copy_csv.sql"
 export CONSTRAINTS_MIGRATION_FILE="apply_constraints.sql"
 
 
-./echos.sh
-
-./countrows.sh
-
-./dump_tables.sh && \
+./echos.sh && \
+./dump_schema.sh && \
+./countrows.sh && \
 ./build_migration.sh && \
 ./startpgsql.sh && \
+./dump_data.sh && \
 ./pgcopy.sh
