@@ -24,3 +24,5 @@ export CONSTRAINTS_MIGRATION_FILE="apply_constraints.sql"
 ./startpgsql.sh && \
 ./dump_data.sh && \
 ./pgcopy.sh
+
+echo "Configure start_pgadmin.yaml from the template, and run start_pgadmin.sh (requires docker, rootless is ok)"
