@@ -1,19 +1,27 @@
 services:
   pgadmin:
+    #user: root
+    userns_mode: "keep-id:uid=5050"
+    security_opt:
+      - label=disable
     image: dpage/pgadmin4
     container_name: pgadmin4_container
     ports:
       - "5050:443"
     environment:
-      PGADMIN_DEFAULT_EMAIL: email@email.edu
-      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_DEFAULT_EMAIL: "email@domain.com"
+      PGADMIN_DEFAULT_PASSWORD: "password@2026!"
       PGADMIN_ENABLE_TLS: True
       PGADMIN_LISTEN_ADDRESS: 0.0.0.0
     volumes:
-      - pgadmin_data:/var/lib/pgadmin # Persistent storage for pgAdmin data
+      - ./pgadmin_data:/var/lib/pgadmin # Persistent storage for pgAdmin data
       - /tmp:/tmp
-      - ~/.ssh/.keys/certec384.pem:/certs/server.cert
-      - ~/.ssh/.keys/privateec384.nopass.key:/certs/server.key
+      - ~/.ssh/.keys/certec384.pem:/certs/server.cert   #signed certificate
+      - ~/.ssh/.keys/privateec384.nopass.pem:/certs/server.key #private key that signed the certificate
+      - ~/Documents/projects/.pgsql/.s.PGSQL.5433:/db/.s.PGSQL.5433 #unix socket for the database
+    #entrypoint: /bin/bash -c "/bin/bash -c \"$${@}\""
+    #command: |
+    #    /bin/bash -c "ls -la /certs"
 
-volumes:
-  pgadmin_data:
+#volumes:
+#  pgadmin_data:

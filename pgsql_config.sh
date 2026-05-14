@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-export DBDIR="$(pwd)/.pgsql"
+export PGDBDIR="~/Documents/projects/.pgsql"
 export DB="FIADB"
 export DBUSER="${USER}"
 export PORT=5433
-export SOCKET="/tmp"
+export SOCKET="$PGDBDIR"
