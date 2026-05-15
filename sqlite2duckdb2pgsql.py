@@ -71,9 +71,6 @@ if __name__ == '__main__':
             print(f'\t{table}')
 
             table_description = con.execute(f"DESCRIBE slite.{table}").fetchall()
-            if table == 'TREE':
-                print(table_description)
-                input()
             cols = [(c,type_override(table, c, t)) for c,t,*_ in table_description]
             cols_as_type = [c if t_override is None else f'TRY_CAST({c} AS {t_override}) AS {c}' for c,t_override in cols]
             cols_as_type_str = ', '.join(cols_as_type)
