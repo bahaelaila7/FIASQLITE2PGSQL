@@ -2,8 +2,8 @@
 
 . ./pgsql_config.sh
 
-if [ ! -d "${DBDIR}" ]; then
+if [ ! -d "${PGDBDIR}" ]; then
   echo "INITIALIZING DB"
-  initdb -D "${DBDIR}" -U ${USER}
+  initdb -D "${PGDBDIR}" -U ${USER}
 fi
-pg_ctl -D "${DBDIR}" -l pglogfile start -o "-p $PORT"
+pg_ctl -D "${PGDBDIR}" -l pglogfile start -o "-p $PORT"
