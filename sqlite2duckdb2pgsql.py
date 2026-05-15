@@ -56,6 +56,12 @@ if __name__ == '__main__':
     assert args.sqlite_path.exists(), f"Sqlite path {args.sqlite_path} does not exist"
     #assert args.duckdb_path.exists(), f"Duckdb path {args.duckdb_file} does not exist"
 
+    # sqlite_master is not visible through duckdb attaching, need to get it separately
+    print(f"Extracting Schemas and Indices from SQLITE: {args.sqlite_path}")
+    with sqlite3.connect(f'file:{args.sqlite_path}?mode=ro', uri=True) as sqlite_con:
+        schemas = {name:sql for name, sql in sqlite_con.execute("SELECT name, sql FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%' AND sql IS NOT NULL;")}
+        indices = {name:sql for name, sql in sqlite_con.execute("SELECT name, sql FROM sqlite_master WHERE type = 'index' AND name NOT LIKE 'sqlite_%' AND sql IS NOT NULL;")}
+
     print(f"Establishing Duckdb {args.duckdb_path}")
     with duckdb.connect(f'{args.duckdb_path}') as con:
         print(f"Attaching SQLITE from within DUCKDB")
@@ -85,11 +91,6 @@ if __name__ == '__main__':
         print("Done with data dumping from SQLITE, DETACHing.")
         con.execute('DETACH slite;')
 
-        # sqlite_master is not visible through duckdb attaching, need to get it separately
-        print(f"Extracting Schemas and Indices from SQLITE: {args.sqlite_path}")
-        with sqlite3.connect(f'file:{args.sqlite_path}?mode=ro', uri=True) as sqlite_con:
-            schemas = {name:sql for name, sql in sqlite_con.execute("SELECT name, sql FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%' AND sql IS NOT NULL;")}
-            indices = {name:sql for name, sql in sqlite_con.execute("SELECT name, sql FROM sqlite_master WHERE type = 'index' AND name NOT LIKE 'sqlite_%' AND sql IS NOT NULL;")}
 
         print(f"Applying Indices on {args.duckdb_path}")
         for name, index_sql in indices.items():
@@ -110,6 +111,7 @@ if __name__ == '__main__':
                 cur = pg_con.cursor()
                 cur.execute(f'DROP TABLE IF EXISTS {schema_name};')
                 cur.execute(f'{schema_sql};')
+            pg_con.commit()
 
             print("Connecting to PGSQL from within DUCKDB")
             con.execute('INSTALL postgres;')
@@ -132,7 +134,7 @@ if __name__ == '__main__':
                 con.execute(sql_cmd)
 
 
-            print("Applyinh indices to PGSQL")
+            print("Applying indices to PGSQL")
             for name, index_sql in indices.items():
                 print(f'\t{name}')
                 print(f'\t\t{index_sql}')
