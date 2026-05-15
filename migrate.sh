@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
-export SQLITE_FIADB="${HOME}/Documents/projects/FIA/SQLite_FIADB_ENTIRE.db"
 . ./pgsql_config.sh
+
+export SQLITE_FIADB="${HOME}/Documents/projects/FIA/SQLite_FIADB_ENTIRE.db"
 export DUCKDB_FIADB="${DB}.duckdb"
 
 ./startpgsql.sh &&
-  dropdb -h "$SOCKET" -p $PORT -U "$DBUSER" "$DB" &&
+  dropdb --if-exists -h "$SOCKET" -p $PORT -U "$DBUSER" "$DB" &&
   createdb -h "$SOCKET" -p $PORT -U "$DBUSER" "$DB" &&
   python sqlite2duckdb2pgsql.py --sqlite_path "$SQLITE_FIADB" --duckdb_path "${DUCKDB_FIADB}" --dbdir "$PGDBDIR" --user "$USER" --port "$PORT" --dbname "$DB"
 
