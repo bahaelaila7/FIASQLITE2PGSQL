@@ -38,4 +38,4 @@ if __name__ == '__main__':
         # apparently duckdb will insist on table name case, so if it's upper case
         # it will be wrapped in quotes. Will make referencing tables harder within PGSQL
         # so, lowering...
-        print(f'CREATE OR REPLACE TABLE pg.{table.lower()} AS FROM {table};')
+        con.execute(f'CREATE OR REPLACE TABLE pg.{table.lower()} AS FROM {table};')
