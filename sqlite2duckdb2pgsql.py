@@ -13,7 +13,7 @@ from pathlib import Path
 def type_override(table, col, t):
     if col in ['TOTAGE', 'MACRPROP_UNADJ']:
         return 'REAL'
-    if table == 'TREE' and t == 'TEXT' and col in ['CN', 'PLT_CN', 'PREV_TRE_CN', 'CREATED_BY', 'CREATED_IN_INSTANCE', 'MODIFIED_BY', 'HTDMP',
+    if table == 'TREE' and t == 'TEXT' and col not in ['CN', 'PLT_CN', 'PREV_TRE_CN', 'CREATED_BY', 'CREATED_IN_INSTANCE', 'MODIFIED_BY', 'HTDMP',
                                                    'P2A_GRM_FLG', 'CAVITY_USE_PNWRS', 'GST_PNWRS']:
         return 'REAL'
     return None
